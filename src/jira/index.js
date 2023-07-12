@@ -1,4 +1,3 @@
-// import { users } from "../utils/users.js";
 import { read } from "../utils/files.js";
 
 const users = JSON.parse(await read("./src/utils/userData.json"))
@@ -44,8 +43,6 @@ async function getAllIssue() {
       console.log("user", users[index].email.split("@")[0]);
       var user = users[index].email.split("@")[0];
       const issuesByUser = await getIssueByUser(user);
-      // console.log("issues", issues);
-      // console.log("issuesByUser", issuesByUser);
       if (issuesByUser.error) {
         return {
           error: issues.error,
@@ -54,8 +51,6 @@ async function getAllIssue() {
 
       if (issuesByUser.total > 0) {
         for (let index = 0; index < issuesByUser.issues.length; index++) {
-          // console.log("issue", issuesByUser.issues[index].key)
-          // console.log("fields", JSON.stringify(issuesByUser.issues[index].fields))
           var issue = {
             id: issuesByUser.issues[index].id,
             key: issuesByUser.issues[index].key,
@@ -67,16 +62,12 @@ async function getAllIssue() {
             subtasks: issuesByUser.issues[index].fields.subtasks,
             isParent: issuesByUser.issues[index].fields.parent ? false : true,
           };
-          // console.log("parent", issuesByUser.issues[index].fields.parent)
-          // console.log("isParent", issuesByUser.issues[index].fields.parent ? true : false)
-          // console.log("issue", issue)
           userData.issues.push(issue);
         }
       }
       console.log("issuesCont", issuesByUser.issues.length);
       issues.push(userData);
     }
-    // console.log("issues", JSON.stringify(issues));
 
     return issues;
   } catch (error) {
